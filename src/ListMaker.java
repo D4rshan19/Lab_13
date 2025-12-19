@@ -14,6 +14,7 @@ public class ListMaker {
         boolean fileHasBeenLoaded = false;
         boolean fileHasBeenEdited = false;
         boolean fileHasBeenSaved = false;
+        String currentFileName = "";
 
         //List with 10 items inside it
         places.add("Germany");
@@ -38,6 +39,9 @@ public class ListMaker {
 
             if (userMenu.equalsIgnoreCase("A")) {
                 addMethod();
+                if(!item.isEmpty()) {
+
+                }
             } else if (userMenu.equalsIgnoreCase("D")) {
                 deleteMethod();
             } else if (userMenu.equalsIgnoreCase("P")) {
@@ -88,17 +92,36 @@ public class ListMaker {
 
     //Opens a list file from PC
     private static boolean openMethod() {
+        }
 
-    }
 
     //Saves the current list file to PC
     private static boolean saveMethod() {
-
+        try {
+            if (fileLoaded) {
+                IOHelper.writeFile(list, currentFileName);
+            } else {
+                System.out.print("Enter file name: ");
+                String name = scan.nextLine();
+                if (!name.endsWith(".txt")) {
+                    name += ".txt";
+                }
+                IOHelper.writeFile(list, name);
+                currentFileName = name;
+                fileLoaded = true;
+            }
+            needsToBeSaved = false;
+        } catch (IOException e) {
+            System.out.println("Error saving file.");
     }
 
     //Clear, removes all the elements from the current list
     private static boolean clearMethod() {
-
+        list.clear();
+        fileHasBeenSaved = true;
+        fileHasBeenLoaded = false;
+        currentFileName = "";
+        System.out.println("List has been cleared.");
     }
 }
 
